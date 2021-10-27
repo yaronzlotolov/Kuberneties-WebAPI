@@ -5,6 +5,6 @@ Ubuntu 20.04 TLS distros, Docker-Desktop,
 and Git.
 
 This example contains kubernetes components like deployment, statefulset,
-pods, services, replicaset, secrets, persistent volume, 
-This example need postman to test the webapi
+pods, services, replicaset, secrets and persistent volume.
+This example need postman for testing the webapi.
 commands are located in kuberneties folder.
