@@ -1,0 +1,59 @@
+https://www.youtube.com/watch?v=OTYlUGUy23Y
+
+Download Postman 
+
+kubectl create secret generic catalog-secrets --from-literal='mongodb-password=MyDemoPwd2021!'
+
+kubectl get secret catalog-secrets -oyaml
+
+kubectl get pods
+
+kubectl get svc
+
+liveness prob ( check if the STATUS of the pod is Running and perform restart to the pod automatically if required) - http://localhost/health/live
+
+readiness prob ( check of the pod is READY to get calls and if yes it update Ready 1/1) - http://localhost/health/ready
+
+inveatigate errors in pod:
+kubectl logs pod  
+kubectl desctribe pod
+
+
+*** Get and Post in postman ***
+postman -> home -> Start with something new -> create new -> httprequest  -> Get > Enter the URL=http://localhost/items  -> Empty []  -> switch to Post -> Body -> raw -> 
+
+Add below items -> Send
+
+{
+ "name" : "Poton",
+ "price" : 12
+}
+
+{
+ "name" : "Antidote",
+ "price" : 17
+}
+
+
+*** check self healing (spinning up new pod (container) when delete pod): ***
+Open two terminals in paralel
+in the left side - kubectl get pods -w
+in the right side - kubectl delete pod
+CTRL+C in the left side and - kubectl get pods
+for catalog new pod is created with different name (deployment) and for mongodb pod a new pod is created with the same name (statfulset)
+check in postman get when the mongodb pod is created the data that stored in pv synced back
+
+
+
+
+
+*** check load balance for 3 pods - how requests go to 3 pods randomly (for this need to add code that indicates to each pod the request go) ***
+split terminal to 3 in paralel
+left side - kubectl get pods -w
+right side - kubectl scale deployment/catalog-deployment --replicas 3   (provisioning new pods - advantage for managing confiners in kuberneties)
+left side - CTRL+ C  and kubectl get pods  (3 pods for catalog )
+
+in each of terminal run - kubectl logs pod1 -f  |  kubectl logs pod2 -f  | kubectl logs pod3 -f
+
+Postman -> Get > Headers >  hidden -> uncheck connection - keep alive  -> Click Get http://localhost/items  -> see 2 items randomaly in each pod
+
