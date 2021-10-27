@@ -1,8 +1,14 @@
 Download Postman 
 
+CD C:\Kubernetes\Net5RestApi\Catalog.Api\kubernetes
+
 kubectl create secret generic catalog-secrets --from-literal='mongodb-password=MyDemoPwd2021!'
 
 kubectl get secret catalog-secrets -oyaml
+
+kubectl aplly -f mongodb.yaml
+
+kubectl aplly -f catalog.yaml
 
 kubectl get pods
 
